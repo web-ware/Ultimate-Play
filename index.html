@@ -6,6 +6,8 @@
     <title>Ultimate Play</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Firebase SDKs -->
     <script type="module" src="https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js"></script>
     <script type="module" src="https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js"></script>
@@ -109,13 +111,19 @@
                 <span class="logo-text text-2xl font-bold">Ultimate Play</span>
             </div>
 
-            <!-- محرك البحث -->
+            <!-- محرك البحث والعربة -->
             <div class="flex items-center space-x-4">
                 <div class="relative hidden md:block">
                     <input id="search-input" type="text" placeholder="ابحث عن ألعاب..." class="bg-[#161b22] text-[#c9d1d9] rounded-full py-2 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-[#5d5dff] transition-all">
                     <svg class="w-5 h-5 absolute right-3 top-1/2 transform -translate-y-1/2 text-[#8b949e]" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
                     </svg>
+                </div>
+                <div class="relative">
+                    <button id="cart-button" class="text-[#c9d1d9] p-2 rounded-full hover:bg-[#21262d] transition-colors">
+                        <i class="fas fa-shopping-cart text-xl"></i>
+                    </button>
+                    <span id="cart-counter" class="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center opacity-0 transition-opacity">0</span>
                 </div>
                 <!-- تسجيل الدخول -->
                 <button id="auth-button" class="bg-[#21262d] text-[#5d5dff] px-4 py-2 rounded-full border border-[#30363d] hover:bg-[#30363d] transition-colors">
@@ -148,6 +156,16 @@
             </div>
         </section>
 
+        <!-- قسم الألعاب الحديثة -->
+        <section class="py-20">
+            <div class="container">
+                <h2 class="text-3xl font-bold mb-10 text-right">ألعاب حديثة</h2>
+                <div id="new-games-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <!-- New Game cards will be dynamically inserted here -->
+                </div>
+            </div>
+        </section>
+
         <!-- قسم الألعاب الشائعة -->
         <section class="py-20">
             <div class="container">
@@ -163,30 +181,36 @@
             <div class="container">
                 <h2 class="text-3xl font-bold mb-10 text-right">تصفح حسب الفئة</h2>
                 <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6">
+                    <!-- Show All button -->
+                    <button data-category="all" class="category-link bg-[#0d1117] rounded-xl p-6 text-center shadow-lg hover:bg-[#1a202c] transition-colors">
+                        <i class="fas fa-th text-2xl mb-2 text-[#5d5dff]"></i>
+                        <h4 class="text-xl font-semibold mt-4 text-right">كل الألعاب</h4>
+                    </button>
                     <!-- فئة 1 -->
-                    <a href="#" class="bg-[#0d1117] rounded-xl p-6 text-center shadow-lg hover:bg-[#1a202c] transition-colors">
+                    <button data-category="أكشن" class="category-link bg-[#0d1117] rounded-xl p-6 text-center shadow-lg hover:bg-[#1a202c] transition-colors">
+                        <i class="fas fa-gun text-2xl mb-2 text-[#5d5dff]"></i>
                         <h4 class="text-xl font-semibold mt-4 text-right">أكشن</h4>
-                    </a>
+                    </button>
                     <!-- فئة 2 -->
-                    <a href="#" class="bg-[#0d1117] rounded-xl p-6 text-center shadow-lg hover:bg-[#1a202c] transition-colors">
+                    <button data-category="مغامرات" class="category-link bg-[#0d1117] rounded-xl p-6 text-center shadow-lg hover:bg-[#1a202c] transition-colors">
+                        <i class="fas fa-map-marked-alt text-2xl mb-2 text-[#5d5dff]"></i>
                         <h4 class="text-xl font-semibold mt-4 text-right">مغامرات</h4>
-                    </a>
+                    </button>
                     <!-- فئة 3 -->
-                    <a href="#" class="bg-[#0d1117] rounded-xl p-6 text-center shadow-lg hover:bg-[#1a202c] transition-colors">
+                    <button data-category="استراتيجية" class="category-link bg-[#0d1117] rounded-xl p-6 text-center shadow-lg hover:bg-[#1a202c] transition-colors">
+                        <i class="fas fa-chess-knight text-2xl mb-2 text-[#5d5dff]"></i>
                         <h4 class="text-xl font-semibold mt-4 text-right">استراتيجية</h4>
-                    </a>
+                    </button>
                     <!-- فئة 4 -->
-                    <a href="#" class="bg-[#0d1117] rounded-xl p-6 text-center shadow-lg hover:bg-[#1a202c] transition-colors">
+                    <button data-category="رياضة" class="category-link bg-[#0d1117] rounded-xl p-6 text-center shadow-lg hover:bg-[#1a202c] transition-colors">
+                        <i class="fas fa-futbol text-2xl mb-2 text-[#5d5dff]"></i>
                         <h4 class="text-xl font-semibold mt-4 text-right">رياضة</h4>
-                    </a>
+                    </button>
                     <!-- فئة 5 -->
-                    <a href="#" class="bg-[#0d1117] rounded-xl p-6 text-center shadow-lg hover:bg-[#1a202c] transition-colors">
+                    <button data-category="أر بي جي" class="category-link bg-[#0d1117] rounded-xl p-6 text-center shadow-lg hover:bg-[#1a202c] transition-colors">
+                        <i class="fas fa-scroll text-2xl mb-2 text-[#5d5dff]"></i>
                         <h4 class="text-xl font-semibold mt-4 text-right">أر بي جي</h4>
-                    </a>
-                    <!-- فئة 6 -->
-                    <a href="#" class="bg-[#0d1117] rounded-xl p-6 text-center shadow-lg hover:bg-[#1a202c] transition-colors">
-                        <h4 class="text-xl font-semibold mt-4 text-right">محاكاة</h4>
-                    </a>
+                    </button>
                 </div>
             </div>
         </section>
@@ -233,8 +257,12 @@
 
         // --- UI Elements ---
         const gamesContainer = document.getElementById('games-container');
+        const newGamesContainer = document.getElementById('new-games-container');
         const searchInput = document.getElementById('search-input');
         const authButton = document.getElementById('auth-button');
+        const cartButton = document.getElementById('cart-button');
+        const cartCounter = document.getElementById('cart-counter');
+        const categoryLinks = document.querySelectorAll('.category-link');
         const messageBox = document.getElementById('message-box');
         const messageText = document.getElementById('message-text');
         const messageCloseBtn = document.getElementById('message-close-btn');
@@ -273,13 +301,17 @@
                         userId = user.uid;
                         authButton.textContent = "تسجيل الخروج";
                         console.log(`User authenticated with ID: ${userId}`);
-                        // Start listening for game data once authenticated
+                        // Start listening for game and cart data once authenticated
                         listenForGames();
+                        listenForCart();
                     } else {
                         userId = null;
                         authButton.textContent = "تسجيل الدخول";
                         console.log("User signed out.");
-                        gamesContainer.innerHTML = ''; // Clear games when signed out
+                        gamesContainer.innerHTML = '';
+                        newGamesContainer.innerHTML = '';
+                        cartCounter.textContent = '0';
+                        cartCounter.classList.remove('opacity-100');
                         // Sign in automatically on initial load
                         try {
                             if (initialAuthToken) {
@@ -302,6 +334,7 @@
 
         // --- Firestore Operations ---
         const gamesPath = `/artifacts/${appId}/public/data/games`;
+        const cartPath = `/artifacts/${appId}/users/${userId}/cart`;
 
         // Initial games data to populate Firestore if it's empty
         const initialGames = [
@@ -310,42 +343,54 @@
                 description: 'لعبة أكشن ومغامرات مثيرة.',
                 price: 49.99,
                 image: 'https://placehold.co/400x225/2a3038/ffffff?text=Game+1',
-                category: 'أكشن'
+                category: 'أكشن',
+                releaseDate: new Date('2023-11-20'),
+                isPopular: true
             },
             {
                 title: 'سباق النجوم',
                 description: 'لعبة سباق سريعة ومجنونة.',
                 price: 39.99,
                 image: 'https://placehold.co/400x225/2a3038/ffffff?text=Game+2',
-                category: 'سباق'
+                category: 'سباق',
+                releaseDate: new Date('2023-10-15'),
+                isPopular: true
             },
             {
                 title: 'عالم الخيال',
                 description: 'لعبة أدوار سحرية.',
                 price: 59.99,
                 image: 'https://placehold.co/400x225/2a3038/ffffff?text=Game+3',
-                category: 'أر بي جي'
+                category: 'أر بي جي',
+                releaseDate: new Date('2023-12-01'),
+                isPopular: true
             },
             {
                 title: 'مدينة الأشباح',
                 description: 'لعبة رعب وبقاء.',
                 price: 29.99,
                 image: 'https://placehold.co/400x225/2a3038/ffffff?text=Game+4',
-                category: 'رعب'
+                category: 'رعب',
+                releaseDate: new Date('2023-09-01'),
+                isPopular: false
             },
             {
                 title: 'مبارزة الأبطال',
                 description: 'لعبة قتال استراتيجية.',
                 price: 35.50,
                 image: 'https://placehold.co/400x225/2a3038/ffffff?text=Game+5',
-                category: 'قتال'
+                category: 'استراتيجية',
+                releaseDate: new Date('2024-01-05'),
+                isPopular: true
             },
             {
                 title: 'بناء المدينة',
                 description: 'لعبة محاكاة وبناء المدن.',
                 price: 25.00,
                 image: 'https://placehold.co/400x225/2a3038/ffffff?text=Game+6',
-                category: 'محاكاة'
+                category: 'محاكاة',
+                releaseDate: new Date('2024-02-10'),
+                isPopular: false
             },
         ];
 
@@ -358,12 +403,14 @@
 
             if (gamesSnapshot.empty) {
                 console.log("Populating initial game data...");
-                const batch = db.runTransaction(async (transaction) => {
-                    initialGames.forEach(game => {
+                for (const game of initialGames) {
+                    try {
                         const newDocRef = doc(gamesCollection);
-                        transaction.set(newDocRef, game);
-                    });
-                });
+                        await setDoc(newDocRef, game);
+                    } catch (e) {
+                        console.error("Error adding document: ", e);
+                    }
+                }
                 console.log("Initial data added to Firestore.");
             }
         };
@@ -375,7 +422,13 @@
             const gamesCollection = collection(db, gamesPath);
             onSnapshot(gamesCollection, (snapshot) => {
                 allGames = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                renderGames(allGames);
+                // Separate games for different sections
+                const popularGames = allGames.filter(game => game.isPopular);
+                const newGames = [...allGames].sort((a, b) => b.releaseDate.toDate() - a.releaseDate.toDate()).slice(0, 4);
+
+                renderGames(popularGames, gamesContainer);
+                renderGames(newGames, newGamesContainer);
+
                 // Populate initial data only if the collection was empty on first load
                 if (snapshot.size === 0) {
                     populateInitialData();
@@ -386,9 +439,53 @@
             });
         };
 
+        /**
+         * Adds a game to the user's cart.
+         * @param {string} gameId The ID of the game to add.
+         */
+        const addToCart = async (gameId) => {
+            if (!userId) {
+                showMessage("يجب تسجيل الدخول لإضافة ألعاب إلى السلة.");
+                return;
+            }
+            try {
+                const gameDocRef = doc(db, gamesPath, gameId);
+                const gameDoc = await getDoc(gameDocRef);
+                if (gameDoc.exists()) {
+                    const gameData = gameDoc.data();
+                    const cartCollection = collection(db, cartPath);
+                    await addDoc(cartCollection, gameData);
+                    showMessage(`تمت إضافة ${gameData.title} إلى سلتك بنجاح!`);
+                }
+            } catch (error) {
+                console.error("Error adding to cart:", error);
+                showMessage("حدث خطأ أثناء إضافة اللعبة إلى السلة.");
+            }
+        };
+
+        /**
+         * Listens for real-time updates to the user's cart.
+         */
+        const listenForCart = () => {
+            if (!userId) return;
+
+            const cartCollection = collection(db, cartPath);
+            onSnapshot(cartCollection, (snapshot) => {
+                const cartCount = snapshot.size;
+                cartCounter.textContent = cartCount;
+                if (cartCount > 0) {
+                    cartCounter.classList.add('opacity-100');
+                } else {
+                    cartCounter.classList.remove('opacity-100');
+                }
+            }, (error) => {
+                console.error("Error fetching cart:", error);
+            });
+        };
+
         // --- UI Rendering ---
-        const renderGames = (games) => {
-            gamesContainer.innerHTML = ''; // Clear previous games
+        const renderGames = (games, container) => {
+            container.innerHTML = ''; // Clear previous games
             games.forEach(game => {
                 const gameCard = `
                     <div class="game-card bg-[#161b22] rounded-xl overflow-hidden shadow-lg p-4">
@@ -403,15 +500,14 @@
                         </div>
                     </div>
                 `;
-                gamesContainer.innerHTML += gameCard;
+                container.innerHTML += gameCard;
             });
 
             // Attach event listeners to new buttons
             document.querySelectorAll('.add-to-cart-btn').forEach(button => {
                 button.addEventListener('click', (e) => {
                     const gameId = e.target.dataset.gameId;
-                    showMessage(`تمت إضافة اللعبة إلى سلتك!`);
-                    console.log(`Added game with ID: ${gameId} to cart.`);
+                    addToCart(gameId);
                 });
             });
         };
@@ -421,14 +517,14 @@
             const query = e.target.value.toLowerCase();
             const filteredGames = allGames.filter(game =>
                 game.title.toLowerCase().includes(query) ||
-                game.description.toLowerCase().includes(query)
+                game.description.toLowerCase().includes(query) ||
+                game.category.toLowerCase().includes(query)
             );
-            renderGames(filteredGames);
+            renderGames(filteredGames, gamesContainer);
         });
 
         authButton.addEventListener('click', async () => {
             if (auth.currentUser) {
-                // User is signed in, sign out
                 try {
                     await signOut(auth);
                     showMessage("تم تسجيل الخروج بنجاح.");
@@ -437,7 +533,6 @@
                     showMessage("حدث خطأ أثناء تسجيل الخروج.");
                 }
             } else {
-                // User is signed out, sign in anonymously
                 try {
                     await signInAnonymously(auth);
                     showMessage("تم تسجيل الدخول بنجاح.");
@@ -448,6 +543,18 @@
             }
         });
 
+        categoryLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                const category = e.currentTarget.dataset.category;
+                if (category === 'all') {
+                    renderGames(allGames, gamesContainer);
+                } else {
+                    const filteredGames = allGames.filter(game => game.category === category);
+                    renderGames(filteredGames, gamesContainer);
+                }
+            });
+        });
+        
         // --- Initial App Load ---
         window.onload = initFirebase;
     </script>
