@@ -6,14 +6,9 @@
     <title>Ultimate Play</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesome for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Firebase SDKs -->
-    <script type="module" src="https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js"></script>
-    <script type="module" src="https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js"></script>
-    <script type="module" src="https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js"></script>
     <style>
         body {
+            direction: rtl; /* اتجاه الكتابة من اليمين إلى اليسار */
             font-family: 'Inter', sans-serif;
             background-color: #0d1117;
             color: #c9d1d9;
@@ -25,17 +20,6 @@
             padding: 0 2rem;
         }
 
-        .logo-text {
-            color: #5d5dff;
-            text-shadow: 0 0 10px #5d5dff;
-        }
-
-        .hero-bg {
-            background-image: url('https://placehold.co/1920x1080/1a202c/ffffff?text=Epic+Gaming+Adventure');
-            background-size: cover;
-            background-position: center;
-        }
-
         .glass-effect {
             background: rgba(13, 17, 23, 0.7);
             backdrop-filter: blur(10px);
@@ -43,520 +27,240 @@
             border-radius: 12px;
         }
 
-        .game-card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        .hero-bg {
+            background-image: url('https://placehold.co/1920x1080/1a202c/ffffff?text=Epic+Gaming+Adventure');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        /* إخفاء جميع الأقسام ما عدا النشط */
+        .page-content:not(.active) {
+            display: none;
         }
 
-        .game-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-        }
-
-        .btn-primary {
-            background-color: #5d5dff;
-            color: white;
-            padding: 0.75rem 2rem;
-            border-radius: 9999px;
-            font-weight: 600;
-            transition: background-color 0.3s ease;
-        }
-
-        .btn-primary:hover {
-            background-color: #4c4ccf;
-        }
-
-        .footer-link {
-            transition: color 0.3s ease;
-        }
-
-        .footer-link:hover {
+        .nav-link.active {
             color: #5d5dff;
-        }
-
-        /* Message Box styles */
-        .message-box {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: #21262d;
-            border: 1px solid #30363d;
-            border-radius: 12px;
-            padding: 2rem;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-            z-index: 1000;
-            text-align: center;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
-        }
-
-        .message-box.show {
-            opacity: 1;
-            visibility: visible;
         }
     </style>
 </head>
-<body dir="rtl">
+<body>
+
     <!-- شريط التنقل العلوي -->
-    <header class="py-4 glass-effect sticky top-0 z-50">
-        <div class="container flex justify-between items-center">
-            <!-- اللوغو -->
+    <header class="glass-effect p-4 md:p-6 sticky top-0 z-50">
+        <div class="container mx-auto flex justify-between items-center">
+            <!-- اللوغو وعنوان الموقع -->
             <div class="flex items-center space-x-2">
+                <!-- لوغو SVG -->
                 <svg width="40" height="40" viewBox="0 0 100 100" class="text-[#5d5dff]">
-                    <!-- لوغو Ultimate Play -->
                     <path fill="currentColor" d="M25 80H15a5 5 0 01-5-5V25a5 5 0 015-5h10a5 5 0 015 5v50a5 5 0 01-5 5z"/>
                     <path fill="currentColor" d="M75 80H55a5 5 0 01-5-5V25a5 5 0 015-5h15c10 0 15 5 15 15v10c0 5-5 10-15 10H65v10h10c5 0 10 5 10 10v5c0 5-5 5-10 5zM65 30h5c5 0 5 5 5 5v5c0 5-5 5-5 5h-5V30z"/>
                 </svg>
-                <span class="logo-text text-2xl font-bold">Ultimate Play</span>
+                <span class="text-2xl font-bold text-white font-inter">Ultimate Play</span>
             </div>
-
-            <!-- محرك البحث والعربة -->
-            <div class="flex items-center space-x-4">
-                <div class="relative hidden md:block">
-                    <input id="search-input" type="text" placeholder="ابحث عن ألعاب..." class="bg-[#161b22] text-[#c9d1d9] rounded-full py-2 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-[#5d5dff] transition-all">
-                    <svg class="w-5 h-5 absolute right-3 top-1/2 transform -translate-y-1/2 text-[#8b949e]" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
-                    </svg>
-                </div>
-                <div class="relative">
-                    <button id="cart-button" class="text-[#c9d1d9] p-2 rounded-full hover:bg-[#21262d] transition-colors">
-                        <i class="fas fa-shopping-cart text-xl"></i>
-                    </button>
-                    <span id="cart-counter" class="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center opacity-0 transition-opacity">0</span>
-                </div>
-                <!-- تسجيل الدخول -->
-                <button id="auth-button" class="bg-[#21262d] text-[#5d5dff] px-4 py-2 rounded-full border border-[#30363d] hover:bg-[#30363d] transition-colors">
-                    تسجيل الدخول
-                </button>
+            <!-- روابط التنقل -->
+            <div class="flex space-x-4 md:space-x-8">
+                <a href="#home" class="nav-link text-lg font-medium transition-colors text-white hover:text-[#5d5dff] active" data-page="home-page">الرئيسية</a>
+                <a href="#services" class="nav-link text-lg font-medium transition-colors text-gray-400 hover:text-[#5d5dff]" data-page="services-page">خدماتنا</a>
+                <a href="#about" class="nav-link text-lg font-medium transition-colors text-gray-400 hover:text-[#5d5dff]" data-page="about-page">من نحن</a>
+                <a href="#contact" class="nav-link text-lg font-medium transition-colors text-gray-400 hover:text-[#5d5dff]" data-page="contact-page">اتصل بنا</a>
             </div>
         </div>
     </header>
 
-    <main>
-        <!-- قسم البطل - Hero Section -->
-        <section class="hero-bg h-[60vh] md:h-[80vh] flex items-center justify-start rounded-lg shadow-lg">
-            <div class="container text-right">
-                <div class="glass-effect p-8 md:p-12 w-full md:w-2/3 lg:w-1/2">
+    <main class="container mx-auto py-10 px-4 md:px-0">
+        <!-- صفحة الرئيسية -->
+        <section id="home-page" class="page-content active">
+            <!-- قسم الواجهة الترحيبية -->
+            <div class="h-[60vh] md:h-[80vh] flex items-center justify-center text-center hero-bg rounded-lg shadow-lg mb-10">
+                <div class="glass-effect p-8 md:p-12 w-full max-w-2xl">
                     <h1 class="text-4xl md:text-6xl font-extrabold text-white mb-4">
-                        اكتشف عالم المغامرة
+                        اكتشف عالم الألعاب
                     </h1>
                     <p class="text-lg md:text-xl text-[#c9d1d9] mb-8">
-                        أحدث الألعاب وأروع العروض في مكان واحد. انطلق في رحلة لا تُنسى مع Ultimate Play.
+                        أفضل الألعاب وأحدثها، كل ذلك في مكان واحد.
                     </p>
-                    <div class="flex justify-end gap-4">
-                        <button class="btn-primary">
-                            اشترِ الآن
+                </div>
+            </div>
+
+            <!-- قسم أحدث الألعاب -->
+            <div class="py-10">
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-8 text-center">أحدث الألعاب</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <!-- بطاقة اللعبة 1 -->
+                    <div class="glass-effect p-4 rounded-xl shadow-lg flex flex-col items-center text-center">
+                        <img src="https://placehold.co/400x500/1e293b/ffffff?text=Game+1" alt="Game 1" class="rounded-lg mb-4 w-full h-auto">
+                        <h3 class="text-xl font-semibold text-white">لعبة المغامرة الكبرى</h3>
+                        <p class="text-gray-400 text-sm mt-2 mb-4">اكتشف عوالم جديدة وواجه الأعداء.</p>
+                        <span class="text-lg font-bold text-[#5d5dff] mb-4">49.99$</span>
+                        <button class="w-full bg-[#5d5dff] text-white px-4 py-2 rounded-full font-semibold hover:bg-[#4c4ccf] transition-colors">
+                            اشتري الآن
                         </button>
-                        <button class="bg-[#21262d] text-white px-8 py-3 rounded-full border border-[#30363d] hover:bg-[#30363d] transition-colors">
-                            تعلم المزيد
+                    </div>
+                    <!-- بطاقة اللعبة 2 -->
+                    <div class="glass-effect p-4 rounded-xl shadow-lg flex flex-col items-center text-center">
+                        <img src="https://placehold.co/400x500/1e293b/ffffff?text=Game+2" alt="Game 2" class="rounded-lg mb-4 w-full h-auto">
+                        <h3 class="text-xl font-semibold text-white">لعبة سباق السرعة</h3>
+                        <p class="text-gray-400 text-sm mt-2 mb-4">ادخل في سباقات مثيرة وحقق الفوز.</p>
+                        <span class="text-lg font-bold text-[#5d5dff] mb-4">29.99$</span>
+                        <button class="w-full bg-[#5d5dff] text-white px-4 py-2 rounded-full font-semibold hover:bg-[#4c4ccf] transition-colors">
+                            اشتري الآن
+                        </button>
+                    </div>
+                    <!-- بطاقة اللعبة 3 -->
+                    <div class="glass-effect p-4 rounded-xl shadow-lg flex flex-col items-center text-center">
+                        <img src="https://placehold.co/400x500/1e293b/ffffff?text=Game+3" alt="Game 3" class="rounded-lg mb-4 w-full h-auto">
+                        <h3 class="text-xl font-semibold text-white">لعبة استراتيجية</h3>
+                        <p class="text-gray-400 text-sm mt-2 mb-4">بناء إمبراطوريتك الخاصة وقم بقيادتها.</p>
+                        <span class="text-lg font-bold text-[#5d5dff] mb-4">59.99$</span>
+                        <button class="w-full bg-[#5d5dff] text-white px-4 py-2 rounded-full font-semibold hover:bg-[#4c4ccf] transition-colors">
+                            اشتري الآن
+                        </button>
+                    </div>
+                    <!-- بطاقة اللعبة 4 -->
+                    <div class="glass-effect p-4 rounded-xl shadow-lg flex flex-col items-center text-center">
+                        <img src="https://placehold.co/400x500/1e293b/ffffff?text=Game+4" alt="Game 4" class="rounded-lg mb-4 w-full h-auto">
+                        <h3 class="text-xl font-semibold text-white">لعبة ألغاز</h3>
+                        <p class="text-gray-400 text-sm mt-2 mb-4">حل الألغاز المعقدة واكتشف الأسرار.</p>
+                        <span class="text-lg font-bold text-[#5d5dff] mb-4">19.99$</span>
+                        <button class="w-full bg-[#5d5dff] text-white px-4 py-2 rounded-full font-semibold hover:bg-[#4c4ccf] transition-colors">
+                            اشتري الآن
                         </button>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- قسم الألعاب الحديثة -->
-        <section class="py-20">
-            <div class="container">
-                <h2 class="text-3xl font-bold mb-10 text-right">ألعاب حديثة</h2>
-                <div id="new-games-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                    <!-- New Game cards will be dynamically inserted here -->
+        <!-- صفحة خدماتنا -->
+        <section id="services-page" class="page-content py-20">
+            <div class="text-center">
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">خدماتنا</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="glass-effect p-8 rounded-xl shadow-lg">
+                        <h3 class="text-2xl font-semibold text-[#5d5dff]">بيع الألعاب</h3>
+                        <p class="mt-4 text-gray-400">توفير مجموعة واسعة من الألعاب الرقمية والفيزيائية.</p>
+                    </div>
+                    <div class="glass-effect p-8 rounded-xl shadow-lg">
+                        <h3 class="text-2xl font-semibold text-[#5d5dff]">بطاقات الهدايا</h3>
+                        <p class="mt-4 text-gray-400">بيع بطاقات هدايا لمختلف المنصات مثل PlayStation و Xbox.</p>
+                    </div>
+                    <div class="glass-effect p-8 rounded-xl shadow-lg">
+                        <h3 class="text-2xl font-semibold text-[#5d5dff]">الدعم الفني</h3>
+                        <p class="mt-4 text-gray-400">دعم فني على مدار الساعة لمساعدتك في أي مشكلة.</p>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- قسم الألعاب الشائعة -->
-        <section class="py-20">
-            <div class="container">
-                <h2 class="text-3xl font-bold mb-10 text-right">ألعاب شائعة</h2>
-                <div id="games-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                    <!-- Game cards will be dynamically inserted here -->
+        <!-- صفحة من نحن -->
+        <section id="about-page" class="page-content py-20">
+            <div class="text-center">
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">من نحن</h2>
+                <p class="text-lg text-gray-300 max-w-3xl mx-auto">
+                    نحن فريق متخصص في جلب أحدث وأفضل الألعاب لجميع اللاعبين. هدفنا هو تقديم تجربة شراء فريدة وممتعة، مع دعم مستمر ومجموعة واسعة من الألعاب التي تناسب جميع الأذواق.
+                </p>
+                <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="glass-effect p-6 rounded-xl shadow-lg">
+                        <h3 class="text-2xl font-semibold text-[#5d5dff]">مهمتنا</h3>
+                        <p class="mt-4 text-gray-400">تقديم أفضل تجربة لعب لمجتمعنا.</p>
+                    </div>
+                    <div class="glass-effect p-6 rounded-xl shadow-lg">
+                        <h3 class="text-2xl font-semibold text-[#5d5dff]">رؤيتنا</h3>
+                        <p class="mt-4 text-gray-400">أن نكون المتجر الأول للألعاب في المنطقة.</p>
+                    </div>
+                    <div class="glass-effect p-6 rounded-xl shadow-lg">
+                        <h3 class="text-2xl font-semibold text-[#5d5dff]">قيمنا</h3>
+                        <p class="mt-4 text-gray-400">الشفافية، الإبداع، والشغف بالألعاب.</p>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- قسم الفئات -->
-        <section class="py-20 bg-[#161b22]">
-            <div class="container">
-                <h2 class="text-3xl font-bold mb-10 text-right">تصفح حسب الفئة</h2>
-                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6">
-                    <!-- Show All button -->
-                    <button data-category="all" class="category-link bg-[#0d1117] rounded-xl p-6 text-center shadow-lg hover:bg-[#1a202c] transition-colors">
-                        <i class="fas fa-th text-2xl mb-2 text-[#5d5dff]"></i>
-                        <h4 class="text-xl font-semibold mt-4 text-right">كل الألعاب</h4>
-                    </button>
-                    <!-- فئة 1 -->
-                    <button data-category="أكشن" class="category-link bg-[#0d1117] rounded-xl p-6 text-center shadow-lg hover:bg-[#1a202c] transition-colors">
-                        <i class="fas fa-gun text-2xl mb-2 text-[#5d5dff]"></i>
-                        <h4 class="text-xl font-semibold mt-4 text-right">أكشن</h4>
-                    </button>
-                    <!-- فئة 2 -->
-                    <button data-category="مغامرات" class="category-link bg-[#0d1117] rounded-xl p-6 text-center shadow-lg hover:bg-[#1a202c] transition-colors">
-                        <i class="fas fa-map-marked-alt text-2xl mb-2 text-[#5d5dff]"></i>
-                        <h4 class="text-xl font-semibold mt-4 text-right">مغامرات</h4>
-                    </button>
-                    <!-- فئة 3 -->
-                    <button data-category="استراتيجية" class="category-link bg-[#0d1117] rounded-xl p-6 text-center shadow-lg hover:bg-[#1a202c] transition-colors">
-                        <i class="fas fa-chess-knight text-2xl mb-2 text-[#5d5dff]"></i>
-                        <h4 class="text-xl font-semibold mt-4 text-right">استراتيجية</h4>
-                    </button>
-                    <!-- فئة 4 -->
-                    <button data-category="رياضة" class="category-link bg-[#0d1117] rounded-xl p-6 text-center shadow-lg hover:bg-[#1a202c] transition-colors">
-                        <i class="fas fa-futbol text-2xl mb-2 text-[#5d5dff]"></i>
-                        <h4 class="text-xl font-semibold mt-4 text-right">رياضة</h4>
-                    </button>
-                    <!-- فئة 5 -->
-                    <button data-category="أر بي جي" class="category-link bg-[#0d1117] rounded-xl p-6 text-center shadow-lg hover:bg-[#1a202c] transition-colors">
-                        <i class="fas fa-scroll text-2xl mb-2 text-[#5d5dff]"></i>
-                        <h4 class="text-xl font-semibold mt-4 text-right">أر بي جي</h4>
-                    </button>
+        <!-- صفحة اتصل بنا -->
+        <section id="contact-page" class="page-content py-20">
+            <div class="text-center">
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">اتصل بنا</h2>
+                <div class="glass-effect p-8 rounded-xl shadow-lg max-w-lg mx-auto">
+                    <p class="text-lg text-gray-300 mb-6">نحن هنا للإجابة على جميع استفساراتك.</p>
+                    <form class="space-y-6" onsubmit="return false;">
+                        <input type="text" placeholder="اسمك الكامل" class="w-full bg-[#0d1117] text-white p-3 rounded-lg border border-[#30363d] focus:outline-none focus:ring-2 focus:ring-[#5d5dff]" />
+                        <input type="email" placeholder="بريدك الإلكتروني" class="w-full bg-[#0d1117] text-white p-3 rounded-lg border border-[#30363d] focus:outline-none focus:ring-2 focus:ring-[#5d5dff]" />
+                        <textarea placeholder="رسالتك" rows="4" class="w-full bg-[#0d1117] text-white p-3 rounded-lg border border-[#30363d] focus:outline-none focus:ring-2 focus:ring-[#5d5dff]"></textarea>
+                        <button type="submit" class="w-full bg-[#5d5dff] text-white px-8 py-3 rounded-full font-semibold hover:bg-[#4c4ccf] transition-colors">
+                            أرسل الرسالة
+                        </button>
+                    </form>
                 </div>
             </div>
         </section>
     </main>
 
     <!-- الشريط السفلي -->
-    <footer class="py-10 bg-[#161b22] border-t border-[#30363d]">
-        <div class="container flex flex-col md:flex-row justify-between items-center text-center md:text-right">
-            <div class="mb-4 md:mb-0">
-                <span class="logo-text text-2xl font-bold">Ultimate Play</span>
-                <p class="text-sm text-[#8b949e] mt-2">© 2023 Ultimate Play. جميع الحقوق محفوظة.</p>
+    <footer class="bg-[#161b22] py-10 border-t border-[#30363d] text-center text-gray-400">
+        <div class="container mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-center mb-6 md:mb-0">
+                <div class="text-2xl font-bold text-white">Ultimate Play</div>
+                <div class="flex space-x-6 mt-4 md:mt-0">
+                    <a href="#" class="hover:text-[#5d5dff] transition-colors">فيسبوك</a>
+                    <a href="#" class="hover:text-[#5d5dff] transition-colors">تويتر</a>
+                    <a href="#" class="hover:text-[#5d5dff] transition-colors">انستغرام</a>
+                </div>
             </div>
-            <div class="flex space-x-6">
-                <!-- أيقونات التواصل الاجتماعي -->
-                <a href="#" class="footer-link text-[#8b949e]">فيسبوك</a>
-                <a href="#" class="footer-link text-[#8b949e]">تويتر</a>
-                <a href="#" class="footer-link text-[#8b949e]">انستغرام</a>
-            </div>
+            <p class="text-sm mt-4">© 2023 Ultimate Play. جميع الحقوق محفوظة.</p>
         </div>
     </footer>
 
-    <!-- Message Box UI -->
-    <div id="message-box" class="message-box">
-        <p id="message-text" class="text-xl font-semibold mb-4"></p>
-        <button id="message-close-btn" class="bg-[#5d5dff] text-white px-4 py-2 rounded-full">
-            أغلق
-        </button>
-    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const pages = document.querySelectorAll('.page-content');
 
-    <!-- Main JavaScript Logic -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signOut, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, onSnapshot, getDocs, addDoc, setDoc, doc, query, where, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-        import { setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+            // وظيفة لإظهار الصفحة وتغيير الروابط النشطة
+            const showPage = (pageId) => {
+                // إخفاء جميع الأقسام
+                pages.forEach(page => {
+                    page.classList.remove('active');
+                });
+                // إظهار القسم المطلوب
+                document.getElementById(pageId).classList.add('active');
 
-        // Set Firebase logging level to debug
-        setLogLevel('debug');
-
-        // --- Firebase Configuration ---
-        const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
-
-        // --- UI Elements ---
-        const gamesContainer = document.getElementById('games-container');
-        const newGamesContainer = document.getElementById('new-games-container');
-        const searchInput = document.getElementById('search-input');
-        const authButton = document.getElementById('auth-button');
-        const cartButton = document.getElementById('cart-button');
-        const cartCounter = document.getElementById('cart-counter');
-        const categoryLinks = document.querySelectorAll('.category-link');
-        const messageBox = document.getElementById('message-box');
-        const messageText = document.getElementById('message-text');
-        const messageCloseBtn = document.getElementById('message-close-btn');
-
-        let db, auth;
-        let allGames = [];
-        let userId = null;
-
-        /**
-         * Shows a custom message box instead of alert().
-         * @param {string} message The message to display.
-         */
-        const showMessage = (message) => {
-            messageText.textContent = message;
-            messageBox.classList.add('show');
-        };
-
-        messageCloseBtn.addEventListener('click', () => {
-            messageBox.classList.remove('show');
-        });
-
-        // --- Firebase Initialization and Authentication ---
-        const initFirebase = async () => {
-            if (!Object.keys(firebaseConfig).length) {
-                showMessage("Firebase config is missing.");
-                return;
-            }
-
-            try {
-                const app = initializeApp(firebaseConfig);
-                auth = getAuth(app);
-                db = getFirestore(app);
-
-                onAuthStateChanged(auth, async (user) => {
-                    if (user) {
-                        userId = user.uid;
-                        authButton.textContent = "تسجيل الخروج";
-                        console.log(`User authenticated with ID: ${userId}`);
-                        // Start listening for game and cart data once authenticated
-                        listenForGames();
-                        listenForCart();
-                    } else {
-                        userId = null;
-                        authButton.textContent = "تسجيل الدخول";
-                        console.log("User signed out.");
-                        gamesContainer.innerHTML = '';
-                        newGamesContainer.innerHTML = '';
-                        cartCounter.textContent = '0';
-                        cartCounter.classList.remove('opacity-100');
-                        // Sign in automatically on initial load
-                        try {
-                            if (initialAuthToken) {
-                                await signInWithCustomToken(auth, initialAuthToken);
-                            } else {
-                                await signInAnonymously(auth);
-                            }
-                        } catch (error) {
-                            console.error("Error during initial authentication:", error);
-                            showMessage("حدث خطأ في تسجيل الدخول. يرجى المحاولة مرة أخرى.");
-                        }
+                // تحديث الروابط النشطة
+                navLinks.forEach(link => {
+                    link.classList.remove('active', 'text-white');
+                    link.classList.add('text-gray-400');
+                    if (link.getAttribute('data-page') === pageId) {
+                        link.classList.add('active', 'text-white');
+                        link.classList.remove('text-gray-400');
                     }
                 });
+            };
 
-            } catch (error) {
-                console.error("Error initializing Firebase:", error);
-                showMessage("حدث خطأ في تهيئة Firebase. يرجى التحقق من الإعدادات.");
-            }
-        };
-
-        // --- Firestore Operations ---
-        const gamesPath = `/artifacts/${appId}/public/data/games`;
-        const cartPath = `/artifacts/${appId}/users/${userId}/cart`;
-
-        // Initial games data to populate Firestore if it's empty
-        const initialGames = [
-            {
-                title: 'المغامرة الكبرى',
-                description: 'لعبة أكشن ومغامرات مثيرة.',
-                price: 49.99,
-                image: 'https://placehold.co/400x225/2a3038/ffffff?text=Game+1',
-                category: 'أكشن',
-                releaseDate: new Date('2023-11-20'),
-                isPopular: true
-            },
-            {
-                title: 'سباق النجوم',
-                description: 'لعبة سباق سريعة ومجنونة.',
-                price: 39.99,
-                image: 'https://placehold.co/400x225/2a3038/ffffff?text=Game+2',
-                category: 'سباق',
-                releaseDate: new Date('2023-10-15'),
-                isPopular: true
-            },
-            {
-                title: 'عالم الخيال',
-                description: 'لعبة أدوار سحرية.',
-                price: 59.99,
-                image: 'https://placehold.co/400x225/2a3038/ffffff?text=Game+3',
-                category: 'أر بي جي',
-                releaseDate: new Date('2023-12-01'),
-                isPopular: true
-            },
-            {
-                title: 'مدينة الأشباح',
-                description: 'لعبة رعب وبقاء.',
-                price: 29.99,
-                image: 'https://placehold.co/400x225/2a3038/ffffff?text=Game+4',
-                category: 'رعب',
-                releaseDate: new Date('2023-09-01'),
-                isPopular: false
-            },
-            {
-                title: 'مبارزة الأبطال',
-                description: 'لعبة قتال استراتيجية.',
-                price: 35.50,
-                image: 'https://placehold.co/400x225/2a3038/ffffff?text=Game+5',
-                category: 'استراتيجية',
-                releaseDate: new Date('2024-01-05'),
-                isPopular: true
-            },
-            {
-                title: 'بناء المدينة',
-                description: 'لعبة محاكاة وبناء المدن.',
-                price: 25.00,
-                image: 'https://placehold.co/400x225/2a3038/ffffff?text=Game+6',
-                category: 'محاكاة',
-                releaseDate: new Date('2024-02-10'),
-                isPopular: false
-            },
-        ];
-
-        /**
-         * Populates the Firestore with initial game data if the collection is empty.
-         */
-        const populateInitialData = async () => {
-            const gamesCollection = collection(db, gamesPath);
-            const gamesSnapshot = await getDocs(gamesCollection);
-
-            if (gamesSnapshot.empty) {
-                console.log("Populating initial game data...");
-                for (const game of initialGames) {
-                    try {
-                        const newDocRef = doc(gamesCollection);
-                        await setDoc(newDocRef, game);
-                    } catch (e) {
-                        console.error("Error adding document: ", e);
-                    }
-                }
-                console.log("Initial data added to Firestore.");
-            }
-        };
-
-        /**
-         * Listens for real-time updates to the games collection.
-         */
-        const listenForGames = () => {
-            const gamesCollection = collection(db, gamesPath);
-            onSnapshot(gamesCollection, (snapshot) => {
-                allGames = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                // Separate games for different sections
-                const popularGames = allGames.filter(game => game.isPopular);
-                const newGames = [...allGames].sort((a, b) => b.releaseDate.toDate() - a.releaseDate.toDate()).slice(0, 4);
-
-                renderGames(popularGames, gamesContainer);
-                renderGames(newGames, newGamesContainer);
-
-                // Populate initial data only if the collection was empty on first load
-                if (snapshot.size === 0) {
-                    populateInitialData();
-                }
-            }, (error) => {
-                console.error("Error fetching games:", error);
-                showMessage("حدث خطأ أثناء تحميل الألعاب.");
-            });
-        };
-
-        /**
-         * Adds a game to the user's cart.
-         * @param {string} gameId The ID of the game to add.
-         */
-        const addToCart = async (gameId) => {
-            if (!userId) {
-                showMessage("يجب تسجيل الدخول لإضافة ألعاب إلى السلة.");
-                return;
-            }
-            try {
-                const gameDocRef = doc(db, gamesPath, gameId);
-                const gameDoc = await getDoc(gameDocRef);
-                if (gameDoc.exists()) {
-                    const gameData = gameDoc.data();
-                    const cartCollection = collection(db, cartPath);
-                    await addDoc(cartCollection, gameData);
-                    showMessage(`تمت إضافة ${gameData.title} إلى سلتك بنجاح!`);
-                }
-            } catch (error) {
-                console.error("Error adding to cart:", error);
-                showMessage("حدث خطأ أثناء إضافة اللعبة إلى السلة.");
-            }
-        };
-
-        /**
-         * Listens for real-time updates to the user's cart.
-         */
-        const listenForCart = () => {
-            if (!userId) return;
-
-            const cartCollection = collection(db, cartPath);
-            onSnapshot(cartCollection, (snapshot) => {
-                const cartCount = snapshot.size;
-                cartCounter.textContent = cartCount;
-                if (cartCount > 0) {
-                    cartCounter.classList.add('opacity-100');
-                } else {
-                    cartCounter.classList.remove('opacity-100');
-                }
-            }, (error) => {
-                console.error("Error fetching cart:", error);
-            });
-        };
-
-        // --- UI Rendering ---
-        const renderGames = (games, container) => {
-            container.innerHTML = ''; // Clear previous games
-            games.forEach(game => {
-                const gameCard = `
-                    <div class="game-card bg-[#161b22] rounded-xl overflow-hidden shadow-lg p-4">
-                        <img src="${game.image}" alt="${game.title}" class="w-full h-auto rounded-lg mb-4">
-                        <h3 class="text-xl font-semibold mb-2 text-right">${game.title}</h3>
-                        <p class="text-[#8b949e] text-right">${game.description}</p>
-                        <div class="flex justify-between items-center mt-4">
-                            <span class="text-lg font-bold text-white">${game.price}$</span>
-                            <button data-game-id="${game.id}" class="add-to-cart-btn bg-[#5d5dff] text-white px-4 py-2 rounded-full text-sm hover:bg-[#4c4ccf] transition-colors">
-                                إضافة إلى السلة
-                            </button>
-                        </div>
-                    </div>
-                `;
-                container.innerHTML += gameCard;
-            });
-
-            // Attach event listeners to new buttons
-            document.querySelectorAll('.add-to-cart-btn').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    const gameId = e.target.dataset.gameId;
-                    addToCart(gameId);
+            // معالجة النقر على روابط التنقل
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const pageId = link.getAttribute('data-page');
+                    showPage(pageId);
                 });
             });
-        };
 
-        // --- Event Handlers ---
-        searchInput.addEventListener('input', (e) => {
-            const query = e.target.value.toLowerCase();
-            const filteredGames = allGames.filter(game =>
-                game.title.toLowerCase().includes(query) ||
-                game.description.toLowerCase().includes(query) ||
-                game.category.toLowerCase().includes(query)
-            );
-            renderGames(filteredGames, gamesContainer);
-        });
+            // معالجة تغيير عنوان URL في شريط المتصفح
+            window.addEventListener('popstate', (e) => {
+                const pageId = e.state ? e.state.pageId : 'home-page';
+                showPage(pageId);
+            });
 
-        authButton.addEventListener('click', async () => {
-            if (auth.currentUser) {
-                try {
-                    await signOut(auth);
-                    showMessage("تم تسجيل الخروج بنجاح.");
-                } catch (error) {
-                    console.error("Error signing out:", error);
-                    showMessage("حدث خطأ أثناء تسجيل الخروج.");
-                }
-            } else {
-                try {
-                    await signInAnonymously(auth);
-                    showMessage("تم تسجيل الدخول بنجاح.");
-                } catch (error) {
-                    console.error("Error signing in anonymously:", error);
-                    showMessage("حدث خطأ في تسجيل الدخول. يرجى المحاولة مرة أخرى.");
-                }
-            }
-        });
-
-        categoryLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
-                const category = e.currentTarget.dataset.category;
-                if (category === 'all') {
-                    renderGames(allGames, gamesContainer);
-                } else {
-                    const filteredGames = allGames.filter(game => game.category === category);
-                    renderGames(filteredGames, gamesContainer);
-                }
+            // تحديد الصفحة الأولى عند التحميل
+            const initialPage = window.location.hash.substring(1) || 'home-page';
+            showPage(initialPage);
+            
+            // تحديث عنوان URL عند التنقل
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    const pageId = link.getAttribute('data-page');
+                    history.pushState({ pageId: pageId }, '', `#${pageId}`);
+                });
             });
         });
-        
-        // --- Initial App Load ---
-        window.onload = initFirebase;
     </script>
 </body>
 </html>
