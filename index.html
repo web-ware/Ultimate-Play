@@ -6,6 +6,10 @@
     <title>Ultimate Play</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Firebase SDKs -->
+    <script type="module" src="https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js"></script>
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -66,6 +70,29 @@
         .footer-link:hover {
             color: #5d5dff;
         }
+
+        /* Message Box styles */
+        .message-box {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #21262d;
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            text-align: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .message-box.show {
+            opacity: 1;
+            visibility: visible;
+        }
     </style>
 </head>
 <body dir="rtl">
@@ -81,17 +108,17 @@
                 </svg>
                 <span class="logo-text text-2xl font-bold">Ultimate Play</span>
             </div>
-            
+
             <!-- محرك البحث -->
             <div class="flex items-center space-x-4">
                 <div class="relative hidden md:block">
-                    <input type="text" placeholder="ابحث عن ألعاب..." class="bg-[#161b22] text-[#c9d1d9] rounded-full py-2 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-[#5d5dff] transition-all">
+                    <input id="search-input" type="text" placeholder="ابحث عن ألعاب..." class="bg-[#161b22] text-[#c9d1d9] rounded-full py-2 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-[#5d5dff] transition-all">
                     <svg class="w-5 h-5 absolute right-3 top-1/2 transform -translate-y-1/2 text-[#8b949e]" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
                     </svg>
                 </div>
                 <!-- تسجيل الدخول -->
-                <button class="bg-[#21262d] text-[#5d5dff] px-4 py-2 rounded-full border border-[#30363d] hover:bg-[#30363d] transition-colors">
+                <button id="auth-button" class="bg-[#21262d] text-[#5d5dff] px-4 py-2 rounded-full border border-[#30363d] hover:bg-[#30363d] transition-colors">
                     تسجيل الدخول
                 </button>
             </div>
@@ -125,55 +152,8 @@
         <section class="py-20">
             <div class="container">
                 <h2 class="text-3xl font-bold mb-10 text-right">ألعاب شائعة</h2>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                    <!-- بطاقة اللعبة 1 -->
-                    <div class="game-card bg-[#161b22] rounded-xl overflow-hidden shadow-lg p-4">
-                        <img src="https://placehold.co/400x225/2a3038/ffffff?text=Game+1" alt="لعبة 1" class="w-full h-auto rounded-lg mb-4">
-                        <h3 class="text-xl font-semibold mb-2 text-right">المغامرة الكبرى</h3>
-                        <p class="text-[#8b949e] text-right">لعبة أكشن ومغامرات مثيرة.</p>
-                        <div class="flex justify-between items-center mt-4">
-                            <span class="text-lg font-bold text-white">49.99$</span>
-                            <button class="bg-[#5d5dff] text-white px-4 py-2 rounded-full text-sm hover:bg-[#4c4ccf] transition-colors">
-                                إضافة إلى السلة
-                            </button>
-                        </div>
-                    </div>
-                    <!-- بطاقة اللعبة 2 -->
-                    <div class="game-card bg-[#161b22] rounded-xl overflow-hidden shadow-lg p-4">
-                        <img src="https://placehold.co/400x225/2a3038/ffffff?text=Game+2" alt="لعبة 2" class="w-full h-auto rounded-lg mb-4">
-                        <h3 class="text-xl font-semibold mb-2 text-right">سباق النجوم</h3>
-                        <p class="text-[#8b949e] text-right">لعبة سباق سريعة ومجنونة.</p>
-                        <div class="flex justify-between items-center mt-4">
-                            <span class="text-lg font-bold text-white">39.99$</span>
-                            <button class="bg-[#5d5dff] text-white px-4 py-2 rounded-full text-sm hover:bg-[#4c4ccf] transition-colors">
-                                إضافة إلى السلة
-                            </button>
-                        </div>
-                    </div>
-                    <!-- بطاقة اللعبة 3 -->
-                    <div class="game-card bg-[#161b22] rounded-xl overflow-hidden shadow-lg p-4">
-                        <img src="https://placehold.co/400x225/2a3038/ffffff?text=Game+3" alt="لعبة 3" class="w-full h-auto rounded-lg mb-4">
-                        <h3 class="text-xl font-semibold mb-2 text-right">عالم الخيال</h3>
-                        <p class="text-[#8b949e] text-right">لعبة أدوار سحرية.</p>
-                        <div class="flex justify-between items-center mt-4">
-                            <span class="text-lg font-bold text-white">59.99$</span>
-                            <button class="bg-[#5d5dff] text-white px-4 py-2 rounded-full text-sm hover:bg-[#4c4ccf] transition-colors">
-                                إضافة إلى السلة
-                            </button>
-                        </div>
-                    </div>
-                    <!-- بطاقة اللعبة 4 -->
-                    <div class="game-card bg-[#161b22] rounded-xl overflow-hidden shadow-lg p-4">
-                        <img src="https://placehold.co/400x225/2a3038/ffffff?text=Game+4" alt="لعبة 4" class="w-full h-auto rounded-lg mb-4">
-                        <h3 class="text-xl font-semibold mb-2 text-right">مدينة الأشباح</h3>
-                        <p class="text-[#8b949e] text-right">لعبة رعب وبقاء.</p>
-                        <div class="flex justify-between items-center mt-4">
-                            <span class="text-lg font-bold text-white">29.99$</span>
-                            <button class="bg-[#5d5dff] text-white px-4 py-2 rounded-full text-sm hover:bg-[#4c4ccf] transition-colors">
-                                إضافة إلى السلة
-                            </button>
-                        </div>
-                    </div>
+                <div id="games-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <!-- Game cards will be dynamically inserted here -->
                 </div>
             </div>
         </section>
@@ -227,5 +207,249 @@
             </div>
         </div>
     </footer>
+
+    <!-- Message Box UI -->
+    <div id="message-box" class="message-box">
+        <p id="message-text" class="text-xl font-semibold mb-4"></p>
+        <button id="message-close-btn" class="bg-[#5d5dff] text-white px-4 py-2 rounded-full">
+            أغلق
+        </button>
+    </div>
+
+    <!-- Main JavaScript Logic -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signOut, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, onSnapshot, getDocs, addDoc, setDoc, doc, query, where, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Set Firebase logging level to debug
+        setLogLevel('debug');
+
+        // --- Firebase Configuration ---
+        const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+
+        // --- UI Elements ---
+        const gamesContainer = document.getElementById('games-container');
+        const searchInput = document.getElementById('search-input');
+        const authButton = document.getElementById('auth-button');
+        const messageBox = document.getElementById('message-box');
+        const messageText = document.getElementById('message-text');
+        const messageCloseBtn = document.getElementById('message-close-btn');
+
+        let db, auth;
+        let allGames = [];
+        let userId = null;
+
+        /**
+         * Shows a custom message box instead of alert().
+         * @param {string} message The message to display.
+         */
+        const showMessage = (message) => {
+            messageText.textContent = message;
+            messageBox.classList.add('show');
+        };
+
+        messageCloseBtn.addEventListener('click', () => {
+            messageBox.classList.remove('show');
+        });
+
+        // --- Firebase Initialization and Authentication ---
+        const initFirebase = async () => {
+            if (!Object.keys(firebaseConfig).length) {
+                showMessage("Firebase config is missing.");
+                return;
+            }
+
+            try {
+                const app = initializeApp(firebaseConfig);
+                auth = getAuth(app);
+                db = getFirestore(app);
+
+                onAuthStateChanged(auth, async (user) => {
+                    if (user) {
+                        userId = user.uid;
+                        authButton.textContent = "تسجيل الخروج";
+                        console.log(`User authenticated with ID: ${userId}`);
+                        // Start listening for game data once authenticated
+                        listenForGames();
+                    } else {
+                        userId = null;
+                        authButton.textContent = "تسجيل الدخول";
+                        console.log("User signed out.");
+                        gamesContainer.innerHTML = ''; // Clear games when signed out
+                        // Sign in automatically on initial load
+                        try {
+                            if (initialAuthToken) {
+                                await signInWithCustomToken(auth, initialAuthToken);
+                            } else {
+                                await signInAnonymously(auth);
+                            }
+                        } catch (error) {
+                            console.error("Error during initial authentication:", error);
+                            showMessage("حدث خطأ في تسجيل الدخول. يرجى المحاولة مرة أخرى.");
+                        }
+                    }
+                });
+
+            } catch (error) {
+                console.error("Error initializing Firebase:", error);
+                showMessage("حدث خطأ في تهيئة Firebase. يرجى التحقق من الإعدادات.");
+            }
+        };
+
+        // --- Firestore Operations ---
+        const gamesPath = `/artifacts/${appId}/public/data/games`;
+
+        // Initial games data to populate Firestore if it's empty
+        const initialGames = [
+            {
+                title: 'المغامرة الكبرى',
+                description: 'لعبة أكشن ومغامرات مثيرة.',
+                price: 49.99,
+                image: 'https://placehold.co/400x225/2a3038/ffffff?text=Game+1',
+                category: 'أكشن'
+            },
+            {
+                title: 'سباق النجوم',
+                description: 'لعبة سباق سريعة ومجنونة.',
+                price: 39.99,
+                image: 'https://placehold.co/400x225/2a3038/ffffff?text=Game+2',
+                category: 'سباق'
+            },
+            {
+                title: 'عالم الخيال',
+                description: 'لعبة أدوار سحرية.',
+                price: 59.99,
+                image: 'https://placehold.co/400x225/2a3038/ffffff?text=Game+3',
+                category: 'أر بي جي'
+            },
+            {
+                title: 'مدينة الأشباح',
+                description: 'لعبة رعب وبقاء.',
+                price: 29.99,
+                image: 'https://placehold.co/400x225/2a3038/ffffff?text=Game+4',
+                category: 'رعب'
+            },
+            {
+                title: 'مبارزة الأبطال',
+                description: 'لعبة قتال استراتيجية.',
+                price: 35.50,
+                image: 'https://placehold.co/400x225/2a3038/ffffff?text=Game+5',
+                category: 'قتال'
+            },
+            {
+                title: 'بناء المدينة',
+                description: 'لعبة محاكاة وبناء المدن.',
+                price: 25.00,
+                image: 'https://placehold.co/400x225/2a3038/ffffff?text=Game+6',
+                category: 'محاكاة'
+            },
+        ];
+
+        /**
+         * Populates the Firestore with initial game data if the collection is empty.
+         */
+        const populateInitialData = async () => {
+            const gamesCollection = collection(db, gamesPath);
+            const gamesSnapshot = await getDocs(gamesCollection);
+
+            if (gamesSnapshot.empty) {
+                console.log("Populating initial game data...");
+                const batch = db.runTransaction(async (transaction) => {
+                    initialGames.forEach(game => {
+                        const newDocRef = doc(gamesCollection);
+                        transaction.set(newDocRef, game);
+                    });
+                });
+                console.log("Initial data added to Firestore.");
+            }
+        };
+
+        /**
+         * Listens for real-time updates to the games collection.
+         */
+        const listenForGames = () => {
+            const gamesCollection = collection(db, gamesPath);
+            onSnapshot(gamesCollection, (snapshot) => {
+                allGames = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                renderGames(allGames);
+                // Populate initial data only if the collection was empty on first load
+                if (snapshot.size === 0) {
+                    populateInitialData();
+                }
+            }, (error) => {
+                console.error("Error fetching games:", error);
+                showMessage("حدث خطأ أثناء تحميل الألعاب.");
+            });
+        };
+
+        // --- UI Rendering ---
+        const renderGames = (games) => {
+            gamesContainer.innerHTML = ''; // Clear previous games
+            games.forEach(game => {
+                const gameCard = `
+                    <div class="game-card bg-[#161b22] rounded-xl overflow-hidden shadow-lg p-4">
+                        <img src="${game.image}" alt="${game.title}" class="w-full h-auto rounded-lg mb-4">
+                        <h3 class="text-xl font-semibold mb-2 text-right">${game.title}</h3>
+                        <p class="text-[#8b949e] text-right">${game.description}</p>
+                        <div class="flex justify-between items-center mt-4">
+                            <span class="text-lg font-bold text-white">${game.price}$</span>
+                            <button data-game-id="${game.id}" class="add-to-cart-btn bg-[#5d5dff] text-white px-4 py-2 rounded-full text-sm hover:bg-[#4c4ccf] transition-colors">
+                                إضافة إلى السلة
+                            </button>
+                        </div>
+                    </div>
+                `;
+                gamesContainer.innerHTML += gameCard;
+            });
+
+            // Attach event listeners to new buttons
+            document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const gameId = e.target.dataset.gameId;
+                    showMessage(`تمت إضافة اللعبة إلى سلتك!`);
+                    console.log(`Added game with ID: ${gameId} to cart.`);
+                });
+            });
+        };
+
+        // --- Event Handlers ---
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            const filteredGames = allGames.filter(game =>
+                game.title.toLowerCase().includes(query) ||
+                game.description.toLowerCase().includes(query)
+            );
+            renderGames(filteredGames);
+        });
+
+        authButton.addEventListener('click', async () => {
+            if (auth.currentUser) {
+                // User is signed in, sign out
+                try {
+                    await signOut(auth);
+                    showMessage("تم تسجيل الخروج بنجاح.");
+                } catch (error) {
+                    console.error("Error signing out:", error);
+                    showMessage("حدث خطأ أثناء تسجيل الخروج.");
+                }
+            } else {
+                // User is signed out, sign in anonymously
+                try {
+                    await signInAnonymously(auth);
+                    showMessage("تم تسجيل الدخول بنجاح.");
+                } catch (error) {
+                    console.error("Error signing in anonymously:", error);
+                    showMessage("حدث خطأ في تسجيل الدخول. يرجى المحاولة مرة أخرى.");
+                }
+            }
+        });
+
+        // --- Initial App Load ---
+        window.onload = initFirebase;
+    </script>
 </body>
 </html>
