@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultimate Play</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0d1117;
+            color: #c9d1d9;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .logo-text {
+            color: #5d5dff;
+            text-shadow: 0 0 10px #5d5dff;
+        }
+
+        .hero-bg {
+            background-image: url('https://placehold.co/1920x1080/1a202c/ffffff?text=Epic+Gaming+Adventure');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .glass-effect {
+            background: rgba(13, 17, 23, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(48, 54, 61, 0.5);
+            border-radius: 12px;
+        }
+
+        .game-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .game-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-primary {
+            background-color: #5d5dff;
+            color: white;
+            padding: 0.75rem 2rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #4c4ccf;
+        }
+
+        .footer-link {
+            transition: color 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: #5d5dff;
+        }
+    </style>
+</head>
+<body dir="rtl">
+    <!-- شريط التنقل العلوي -->
+    <header class="py-4 glass-effect sticky top-0 z-50">
+        <div class="container flex justify-between items-center">
+            <!-- اللوغو -->
+            <div class="flex items-center space-x-2">
+                <svg width="40" height="40" viewBox="0 0 100 100" class="text-[#5d5dff]">
+                    <!-- لوغو Ultimate Play -->
+                    <path fill="currentColor" d="M25 80H15a5 5 0 01-5-5V25a5 5 0 015-5h10a5 5 0 015 5v50a5 5 0 01-5 5z"/>
+                    <path fill="currentColor" d="M75 80H55a5 5 0 01-5-5V25a5 5 0 015-5h15c10 0 15 5 15 15v10c0 5-5 10-15 10H65v10h10c5 0 10 5 10 10v5c0 5-5 5-10 5zM65 30h5c5 0 5 5 5 5v5c0 5-5 5-5 5h-5V30z"/>
+                </svg>
+                <span class="logo-text text-2xl font-bold">Ultimate Play</span>
+            </div>
+            
+            <!-- محرك البحث -->
+            <div class="flex items-center space-x-4">
+                <div class="relative hidden md:block">
+                    <input type="text" placeholder="ابحث عن ألعاب..." class="bg-[#161b22] text-[#c9d1d9] rounded-full py-2 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-[#5d5dff] transition-all">
+                    <svg class="w-5 h-5 absolute right-3 top-1/2 transform -translate-y-1/2 text-[#8b949e]" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+                    </svg>
+                </div>
+                <!-- تسجيل الدخول -->
+                <button class="bg-[#21262d] text-[#5d5dff] px-4 py-2 rounded-full border border-[#30363d] hover:bg-[#30363d] transition-colors">
+                    تسجيل الدخول
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- قسم البطل - Hero Section -->
+        <section class="hero-bg h-[60vh] md:h-[80vh] flex items-center justify-start rounded-lg shadow-lg">
+            <div class="container text-right">
+                <div class="glass-effect p-8 md:p-12 w-full md:w-2/3 lg:w-1/2">
+                    <h1 class="text-4xl md:text-6xl font-extrabold text-white mb-4">
+                        اكتشف عالم المغامرة
+                    </h1>
+                    <p class="text-lg md:text-xl text-[#c9d1d9] mb-8">
+                        أحدث الألعاب وأروع العروض في مكان واحد. انطلق في رحلة لا تُنسى مع Ultimate Play.
+                    </p>
+                    <div class="flex justify-end gap-4">
+                        <button class="btn-primary">
+                            اشترِ الآن
+                        </button>
+                        <button class="bg-[#21262d] text-white px-8 py-3 rounded-full border border-[#30363d] hover:bg-[#30363d] transition-colors">
+                            تعلم المزيد
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- قسم الألعاب الشائعة -->
+        <section class="py-20">
+            <div class="container">
+                <h2 class="text-3xl font-bold mb-10 text-right">ألعاب شائعة</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <!-- بطاقة اللعبة 1 -->
+                    <div class="game-card bg-[#161b22] rounded-xl overflow-hidden shadow-lg p-4">
+                        <img src="https://placehold.co/400x225/2a3038/ffffff?text=Game+1" alt="لعبة 1" class="w-full h-auto rounded-lg mb-4">
+                        <h3 class="text-xl font-semibold mb-2 text-right">المغامرة الكبرى</h3>
+                        <p class="text-[#8b949e] text-right">لعبة أكشن ومغامرات مثيرة.</p>
+                        <div class="flex justify-between items-center mt-4">
+                            <span class="text-lg font-bold text-white">49.99$</span>
+                            <button class="bg-[#5d5dff] text-white px-4 py-2 rounded-full text-sm hover:bg-[#4c4ccf] transition-colors">
+                                إضافة إلى السلة
+                            </button>
+                        </div>
+                    </div>
+                    <!-- بطاقة اللعبة 2 -->
+                    <div class="game-card bg-[#161b22] rounded-xl overflow-hidden shadow-lg p-4">
+                        <img src="https://placehold.co/400x225/2a3038/ffffff?text=Game+2" alt="لعبة 2" class="w-full h-auto rounded-lg mb-4">
+                        <h3 class="text-xl font-semibold mb-2 text-right">سباق النجوم</h3>
+                        <p class="text-[#8b949e] text-right">لعبة سباق سريعة ومجنونة.</p>
+                        <div class="flex justify-between items-center mt-4">
+                            <span class="text-lg font-bold text-white">39.99$</span>
+                            <button class="bg-[#5d5dff] text-white px-4 py-2 rounded-full text-sm hover:bg-[#4c4ccf] transition-colors">
+                                إضافة إلى السلة
+                            </button>
+                        </div>
+                    </div>
+                    <!-- بطاقة اللعبة 3 -->
+                    <div class="game-card bg-[#161b22] rounded-xl overflow-hidden shadow-lg p-4">
+                        <img src="https://placehold.co/400x225/2a3038/ffffff?text=Game+3" alt="لعبة 3" class="w-full h-auto rounded-lg mb-4">
+                        <h3 class="text-xl font-semibold mb-2 text-right">عالم الخيال</h3>
+                        <p class="text-[#8b949e] text-right">لعبة أدوار سحرية.</p>
+                        <div class="flex justify-between items-center mt-4">
+                            <span class="text-lg font-bold text-white">59.99$</span>
+                            <button class="bg-[#5d5dff] text-white px-4 py-2 rounded-full text-sm hover:bg-[#4c4ccf] transition-colors">
+                                إضافة إلى السلة
+                            </button>
+                        </div>
+                    </div>
+                    <!-- بطاقة اللعبة 4 -->
+                    <div class="game-card bg-[#161b22] rounded-xl overflow-hidden shadow-lg p-4">
+                        <img src="https://placehold.co/400x225/2a3038/ffffff?text=Game+4" alt="لعبة 4" class="w-full h-auto rounded-lg mb-4">
+                        <h3 class="text-xl font-semibold mb-2 text-right">مدينة الأشباح</h3>
+                        <p class="text-[#8b949e] text-right">لعبة رعب وبقاء.</p>
+                        <div class="flex justify-between items-center mt-4">
+                            <span class="text-lg font-bold text-white">29.99$</span>
+                            <button class="bg-[#5d5dff] text-white px-4 py-2 rounded-full text-sm hover:bg-[#4c4ccf] transition-colors">
+                                إضافة إلى السلة
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- قسم الفئات -->
+        <section class="py-20 bg-[#161b22]">
+            <div class="container">
+                <h2 class="text-3xl font-bold mb-10 text-right">تصفح حسب الفئة</h2>
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6">
+                    <!-- فئة 1 -->
+                    <a href="#" class="bg-[#0d1117] rounded-xl p-6 text-center shadow-lg hover:bg-[#1a202c] transition-colors">
+                        <h4 class="text-xl font-semibold mt-4 text-right">أكشن</h4>
+                    </a>
+                    <!-- فئة 2 -->
+                    <a href="#" class="bg-[#0d1117] rounded-xl p-6 text-center shadow-lg hover:bg-[#1a202c] transition-colors">
+                        <h4 class="text-xl font-semibold mt-4 text-right">مغامرات</h4>
+                    </a>
+                    <!-- فئة 3 -->
+                    <a href="#" class="bg-[#0d1117] rounded-xl p-6 text-center shadow-lg hover:bg-[#1a202c] transition-colors">
+                        <h4 class="text-xl font-semibold mt-4 text-right">استراتيجية</h4>
+                    </a>
+                    <!-- فئة 4 -->
+                    <a href="#" class="bg-[#0d1117] rounded-xl p-6 text-center shadow-lg hover:bg-[#1a202c] transition-colors">
+                        <h4 class="text-xl font-semibold mt-4 text-right">رياضة</h4>
+                    </a>
+                    <!-- فئة 5 -->
+                    <a href="#" class="bg-[#0d1117] rounded-xl p-6 text-center shadow-lg hover:bg-[#1a202c] transition-colors">
+                        <h4 class="text-xl font-semibold mt-4 text-right">أر بي جي</h4>
+                    </a>
+                    <!-- فئة 6 -->
+                    <a href="#" class="bg-[#0d1117] rounded-xl p-6 text-center shadow-lg hover:bg-[#1a202c] transition-colors">
+                        <h4 class="text-xl font-semibold mt-4 text-right">محاكاة</h4>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- الشريط السفلي -->
+    <footer class="py-10 bg-[#161b22] border-t border-[#30363d]">
+        <div class="container flex flex-col md:flex-row justify-between items-center text-center md:text-right">
+            <div class="mb-4 md:mb-0">
+                <span class="logo-text text-2xl font-bold">Ultimate Play</span>
+                <p class="text-sm text-[#8b949e] mt-2">© 2023 Ultimate Play. جميع الحقوق محفوظة.</p>
+            </div>
+            <div class="flex space-x-6">
+                <!-- أيقونات التواصل الاجتماعي -->
+                <a href="#" class="footer-link text-[#8b949e]">فيسبوك</a>
+                <a href="#" class="footer-link text-[#8b949e]">تويتر</a>
+                <a href="#" class="footer-link text-[#8b949e]">انستغرام</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
