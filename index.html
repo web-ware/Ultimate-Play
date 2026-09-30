@@ -1,79 +1,70 @@
 <!doctype html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>مسار التعلّم — Ultimate Play</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#101827"><meta name="description" content="مسار يومي للتعلم والمتابعة">
+<link rel="manifest" href="manifest.webmanifest">
+<title>مساري</title>
 <style>
-:root{--bg:#0b1020;--panel:#11182b;--panel2:#18213a;--text:#edf2ff;--muted:#9aa7c2;--line:#293653;--accent:#7c9cff;--ok:#45d483;--danger:#ff6b6b;--shadow:0 18px 50px #0005}
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#182446 0,#0b1020 42%);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Tahoma,Arial,sans-serif;min-height:100vh}button,input{font:inherit}button{cursor:pointer}.wrap{max-width:1100px;margin:auto;padding:28px 18px 60px}.hero{display:flex;gap:18px;align-items:flex-end;justify-content:space-between;margin-bottom:24px}.eyebrow{color:var(--accent);font-weight:800;letter-spacing:.04em}.hero h1{font-size:clamp(30px,6vw,56px);margin:5px 0}.hero p{color:var(--muted);margin:0;max-width:700px}.date{background:#ffffff0a;border:1px solid var(--line);border-radius:16px;padding:12px 15px;text-align:center;white-space:nowrap}.grid{display:grid;grid-template-columns:1.35fr .65fr;gap:18px}.panel{background:#11182bee;border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow);padding:20px}.panel h2{margin:0 0 15px;font-size:20px}.tasks{display:grid;gap:12px}.task{display:grid;grid-template-columns:auto 1fr auto;gap:13px;align-items:center;padding:15px;border:1px solid var(--line);background:#ffffff04;border-radius:17px;transition:.18s}.task:hover{transform:translateY(-1px);background:#ffffff08}.task.done{border-color:#45d48355;background:#45d4830d}.check{width:27px;height:27px;border-radius:9px;border:2px solid #53627f;background:transparent;color:white;display:grid;place-items:center;font-size:16px}.done .check{background:var(--ok);border-color:var(--ok);color:#06150d}.task-title{font-weight:800}.task-desc{color:var(--muted);font-size:14px;margin-top:4px;line-height:1.5}.duration{font-size:12px;color:#b7c5e4;background:#ffffff08;border:1px solid var(--line);padding:7px 9px;border-radius:10px}.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.stat{padding:15px;border-radius:16px;background:#ffffff05;border:1px solid var(--line)}.stat strong{display:block;font-size:27px}.stat span{color:var(--muted);font-size:12px}.progress{height:12px;background:#0a0f1d;border-radius:99px;overflow:hidden;border:1px solid var(--line);margin:16px 0 8px}.bar{height:100%;width:0;background:linear-gradient(90deg,var(--accent),#9e7cff);transition:.3s}.small{font-size:13px;color:var(--muted)}.week{display:grid;gap:9px;margin-top:14px}.day{display:grid;grid-template-columns:72px 1fr 38px;align-items:center;gap:10px;font-size:13px}.mini{height:9px;background:#0a0f1d;border-radius:99px;overflow:hidden}.mini i{display:block;height:100%;width:0;background:var(--ok)}.settings{margin-top:18px}.settings label{display:block;font-size:13px;color:var(--muted);margin:10px 0 6px}.settings input{width:100%;background:#0b1020;color:var(--text);border:1px solid var(--line);border-radius:12px;padding:11px}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.btn{border:1px solid var(--line);background:#ffffff08;color:var(--text);padding:10px 13px;border-radius:12px}.btn.primary{background:var(--accent);border-color:var(--accent);color:#081022;font-weight:800}.btn.danger{color:#ff9a9a}.status{margin-top:12px;padding:11px;border-radius:12px;background:#ffffff05;color:var(--muted);font-size:13px;line-height:1.5}.status.ok{color:#8cf0b8}.status.err{color:#ff9b9b}.footer{text-align:center;color:#65728d;font-size:12px;margin-top:20px}.empty{padding:18px;text-align:center;color:var(--muted)}@media(max-width:800px){.grid{grid-template-columns:1fr}.hero{align-items:flex-start;flex-direction:column}.task{grid-template-columns:auto 1fr}.duration{grid-column:2}.date{align-self:stretch}}
+:root{--bg:#0b1020;--card:#121a2b;--card2:#18233a;--text:#f3f6ff;--muted:#8e9bb5;--line:#263550;--accent:#7c9cff;--ok:#4ade80;--bad:#fb7185}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Tahoma,sans-serif}button{font:inherit;border:0;cursor:pointer}.app{max-width:1100px;margin:auto;padding:24px 16px 100px}.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}.brand{font-weight:900;font-size:25px}.brand small{display:block;font-size:11px;color:var(--muted);font-weight:600}.install{background:var(--accent);color:#081022;padding:10px 14px;border-radius:12px;font-weight:800}.page{display:none}.page.active{display:block}.title{font-size:32px;margin:5px 0}.sub{color:var(--muted);margin:0 0 22px}.tasks{display:grid;gap:12px}.task{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:19px;padding:15px}.task.done{border-color:#4ade8066;background:#4ade8010}.check{width:31px;height:31px;border-radius:10px;border:2px solid #50617f;background:transparent;color:white}.done .check{background:var(--ok);color:#06140a;border-color:var(--ok)}.task h3{margin:0;font-size:17px}.task p{margin:4px 0 0;color:var(--muted);font-size:13px;line-height:1.45}.time{font-size:12px;color:#c2cde2;background:#ffffff08;border:1px solid var(--line);padding:7px 9px;border-radius:9px}.summary{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:18px}.stat{background:var(--card);border:1px solid var(--line);border-radius:17px;padding:15px}.stat b{display:block;font-size:26px}.stat span{font-size:12px;color:var(--muted)}.bar{height:13px;background:#070b15;border:1px solid var(--line);border-radius:99px;overflow:hidden}.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),#9b7cff);transition:.3s}.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:18px;margin-bottom:14px}.card h2{margin:0 0 14px;font-size:19px}.calendar{display:grid;gap:9px}.day{display:grid;grid-template-columns:100px 1fr 45px;align-items:center;gap:10px}.mini{height:9px;border-radius:99px;background:#070b15;overflow:hidden}.mini i{display:block;height:100%;background:var(--ok)}.note{color:var(--muted);font-size:12px}.bottom{position:fixed;bottom:0;left:0;right:0;background:#0c1220ee;backdrop-filter:blur(16px);border-top:1px solid var(--line);display:flex;justify-content:center;gap:8px;padding:10px env(safe-area-inset-right) calc(10px + env(safe-area-inset-bottom))}.nav{color:var(--muted);background:transparent;padding:9px 18px;border-radius:12px}.nav.active{background:var(--card2);color:var(--text)}.danger{color:#fb7185;background:transparent;padding:9px}.empty{text-align:center;color:var(--muted);padding:25px}.toast{position:fixed;top:18px;left:50%;transform:translateX(-50%) translateY(-20px);opacity:0;background:#1d2a44;color:white;padding:11px 16px;border-radius:12px;border:1px solid var(--line);transition:.2s;z-index:9}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}@media(max-width:700px){.summary{grid-template-columns:repeat(2,1fr)}.task{grid-template-columns:auto 1fr}.time{grid-column:2}.title{font-size:28px}.day{grid-template-columns:72px 1fr 36px}}
 </style>
 </head>
 <body>
-<div class="wrap">
-<header class="hero">
-  <div><div class="eyebrow">ULTIMATE PLAY · مسار يومي</div><h1>ابنِ عادة التعلّم.</h1><p>كمّل المهام، وسجّل تقدّمك يومًا بيوم. البيانات تُحفظ في مستودع GitHub بدل تخزينها في المتصفح.</p></div>
-  <div class="date" id="todayLabel"></div>
-</header>
-<main class="grid">
-<section class="panel"><h2>مهام اليوم</h2><div class="tasks" id="tasks"></div></section>
-<aside>
-<section class="panel">
-  <h2>تقدّمك</h2>
-  <div class="stats">
-    <div class="stat"><strong id="todayDone">0/6</strong><span>مهام اليوم</span></div>
-    <div class="stat"><strong id="totalDays">0</strong><span>أيام فيها إنجاز</span></div>
-    <div class="stat"><strong id="streak">0</strong><span>سلسلة الأيام</span></div>
-    <div class="stat"><strong id="totalDone">0</strong><span>إجمالي المهام</span></div>
-  </div>
-  <div class="progress"><div class="bar" id="bar"></div></div>
-  <div class="small" id="percent">0% من مهام اليوم مكتملة</div>
-  <h2 style="margin-top:22px">آخر 7 أيام</h2><div class="week" id="week"></div>
-</section>
-<section class="panel settings">
-  <h2>ربط GitHub</h2>
-  <div class="small">المستودع: <b>web-ware/Ultimate-Play</b> · الملف: <b>progress.json</b></div>
-  <label for="token">GitHub Personal Access Token</label>
-  <input id="token" type="password" autocomplete="off" placeholder="الصق التوكن هنا — لا يُحفظ محليًا">
-  <div class="actions"><button class="btn primary" id="saveBtn">حفظ التقدم في GitHub</button><button class="btn" id="loadBtn">تحميل من GitHub</button><button class="btn danger" id="clearBtn">مسح بيانات الذاكرة</button></div>
-  <div class="status" id="status">أول مرة؟ أنشئ Fine-grained token بصلاحية Contents: Read and write لهذا الريبو، ثم الصقه هنا.</div>
-</section>
-</aside>
-</main>
-<div class="footer">كل تغيير في التقدم يُكتب كـ commit داخل GitHub. التوكن يبقى في ذاكرة الصفحة ولا يُكتب في progress.json.</div>
+<div class="app">
+<header class="top"><div class="brand">مساري <small>Ultimate Play</small></div><button id="install" class="install" hidden>تثبيت التطبيق</button></header>
+
+<section id="today" class="page active">
+<h1 class="title">مهام اليوم</h1><p class="sub" id="todayDate"></p>
+<div class="summary">
+<div class="stat"><b id="todayCount">0/6</b><span>اليوم</span></div>
+<div class="stat"><b id="todayPct">0%</b><span>الإنجاز</span></div>
+<div class="stat"><b id="streak">0</b><span>سلسلة الأيام</span></div>
+<div class="stat"><b id="allDone">0</b><span>كل المهام</span></div>
 </div>
+<div class="card"><div class="bar"><i id="todayBar"></i></div></div>
+<div id="tasks" class="tasks"></div>
+</section>
+
+<section id="progress" class="page">
+<h1 class="title">التقدم</h1><p class="sub">شوف واش درت في كل يوم، بلا تعقيد.</p>
+<div class="summary"><div class="stat"><b id="pDays">0</b><span>أيام منجزة</span></div><div class="stat"><b id="pAvg">0%</b><span>متوسط الإنجاز</span></div><div class="stat"><b id="pBest">0/6</b><span>أفضل يوم</span></div><div class="stat"><b id="pTotal">0</b><span>إجمالي المهام</span></div></div>
+<div class="card"><h2>كل الأيام</h2><div id="calendar" class="calendar"></div></div>
+<div class="card"><button id="reset" class="danger">مسح كل التقدم</button></div>
+</section>
+</div>
+<nav class="bottom"><button class="nav active" data-page="today">📋 اليوم</button><button class="nav" data-page="progress">📈 التقدم</button></nav>
+<div id="toast" class="toast"></div>
 <script>
-const REPO='web-ware/Ultimate-Play', BRANCH='main', FILE='progress.json';
 const tasks=[
-{id:'history',icon:'🏛️',title:'تاريخ',desc:'درس/فيديو/قراءة في موضوع تاريخي + كتابة أهم الأفكار',duration:'30–45 د'},
-{id:'brain',icon:'🧠',title:'أعصاب وسلوك',desc:'تعلم مفهوم واحد بتركيز + شرحو بكلامك',duration:'30–60 د'},
-{id:'sharia',icon:'📖',title:'شرعي',desc:'درس/شرح/قراءة من مصدر موثوق + استخراج الفوائد',duration:'حسب الدرس'},
-{id:'logic',icon:'🧮',title:'منطق ونقد',desc:'حجة، مغالطة، تمرين منطقي، أو تحليل نقاش',duration:'20–30 د'},
-{id:'books',icon:'📚',title:'كتب ومطالعة',desc:'كتاب أصلي أو ملخص/شرح كتاب',duration:'20–40 د'},
-{id:'review',icon:'🔁',title:'مراجعة',desc:'استرجاع ما تعلمته سابقًا بدون النظر للملاحظات',duration:'15–20 د'}];
-let data={days:{}},token='';
-const $=id=>document.getElementById(id),pad=n=>String(n).padStart(2,'0');
-function dateKey(d=new Date()){return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`}
-function fmtDate(d){return d.toLocaleDateString('ar-DZ',{weekday:'long',day:'numeric',month:'long',year:'numeric'})}
-function getDay(k=dateKey()){return data.days[k]||{}}
+['history','🏛️','تاريخ','درس/فيديو/قراءة + كتابة أهم الأفكار','30–45 د'],
+['brain','🧠','أعصاب وسلوك','تعلم مفهوم واحد بتركيز + شرحو بكلامك','30–60 د'],
+['sharia','📖','شرعي','درس/شرح/قراءة من مصدر موثوق + استخراج الفوائد','حسب الدرس'],
+['logic','🧮','منطق ونقد','حجة، مغالطة، تمرين منطقي، أو تحليل نقاش','20–30 د'],
+['books','📚','كتب ومطالعة','كتاب أصلي أو ملخص/شرح كتاب','20–40 د'],
+['review','🔁','مراجعة','استرجاع ما تعلمته سابقًا بدون النظر للملاحظات','15–20 د']
+];
+const KEY='masari-progress-v1';let data=JSON.parse(localStorage.getItem(KEY)||'{"days":{}}');
+const $=x=>document.getElementById(x),pad=n=>String(n).padStart(2,'0');
+function key(d=new Date()){return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())}
+function day(k=key()){return data.days[k]||{}}
+function save(){localStorage.setItem(KEY,JSON.stringify(data));render()}
+function count(k){return tasks.filter(t=>day(k)[t[0]]).length}
+function toggle(id){let k=key();data.days[k]={...day(k),[id]:!day(k)[id]};save();toast('تم الحفظ تلقائيًا ✓')}
+function streak(){let n=0,d=new Date();while(count(key(d))){n++;d.setDate(d.getDate()-1)}return n}
 function render(){
- const k=dateKey(),day=getDay(k);$('todayLabel').textContent=fmtDate(new Date());
- $('tasks').innerHTML=tasks.map(t=>{const done=!!day[t.id];return `<article class="task ${done?'done':''}"><button class="check" data-id="${t.id}" aria-label="${done?'إلغاء':'إتمام'} ${t.title}">${done?'✓':''}</button><div><div class="task-title">${t.icon} ${t.title}</div><div class="task-desc">${t.desc}</div></div><div class="duration">${t.duration}</div></article>`}).join('');
- document.querySelectorAll('.check').forEach(b=>b.onclick=()=>toggle(b.dataset.id));
- const done=tasks.filter(t=>day[t.id]).length,pct=Math.round(done/tasks.length*100);$('todayDone').textContent=`${done}/${tasks.length}`;$('bar').style.width=pct+'%';$('percent').textContent=`${pct}% من مهام اليوم مكتملة`;
- const keys=Object.keys(data.days);$('totalDays').textContent=keys.filter(k=>Object.values(data.days[k]||{}).some(Boolean)).length;$('totalDone').textContent=keys.reduce((n,k)=>n+tasks.filter(t=>data.days[k]?.[t.id]).length,0);$('streak').textContent=calcStreak();renderWeek();
+ const k=key(),n=count(k),pct=Math.round(n/6*100);$('todayDate').textContent=new Date().toLocaleDateString('ar-DZ',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+ $('todayCount').textContent=n+'/6';$('todayPct').textContent=pct+'%';$('streak').textContent=streak();$('allDone').textContent=Object.keys(data.days).reduce((a,k)=>a+count(k),0);$('todayBar').style.width=pct+'%';
+ $('tasks').innerHTML=tasks.map(t=>{let done=!!day()[t[0]];return '<article class="task '+(done?'done':'')+'"><button class="check" onclick="toggle(\''+t[0]+'\')">'+(done?'✓':'')+'</button><div><h3>'+t[1]+' '+t[2]+'</h3><p>'+t[3]+'</p></div><span class="time">'+t[4]+'</span></article>'}).join('');
+ let keys=Object.keys(data.days).sort().reverse(),days=keys.length,avg=days?Math.round(keys.reduce((a,k)=>a+count(k),0)/(days*6)*100):0,best=keys.reduce((m,k)=>Math.max(m,count(k)),0);
+ $('pDays').textContent=days;$('pAvg').textContent=avg+'%';$('pBest').textContent=best+'/6';$('pTotal').textContent=keys.reduce((a,k)=>a+count(k),0);
+ $('calendar').innerHTML=keys.length?keys.map(k=>{let n=count(k),p=Math.round(n/6*100),d=new Date(k+'T12:00:00');return '<div class="day"><span>'+d.toLocaleDateString('ar-DZ',{weekday:'short',day:'numeric',month:'short'})+'</span><div class="mini"><i style="width:'+p+'%"></i></div><b>'+n+'/6</b></div>'}).join(''):'<div class="empty">مازال ما عندك حتى يوم مسجل.</div>';
 }
-function toggle(id){const k=dateKey(),d={...getDay(k)};d[id]=!d[id];data.days[k]=d;render()}
-function calcStreak(){let n=0,d=new Date();while(true){const k=dateKey(d),done=tasks.filter(t=>getDay(k)[t.id]).length;if(done===0)break;n++;d.setDate(d.getDate()-1)}return n}
-function renderWeek(){const out=[];for(let i=6;i>=0;i--){const d=new Date();d.setDate(d.getDate()-i);const k=dateKey(d),done=tasks.filter(t=>getDay(k)[t.id]).length,p=Math.round(done/tasks.length*100);out.push(`<div class="day"><span>${d.toLocaleDateString('ar-DZ',{weekday:'short'})} <small>${d.getDate()}/${d.getMonth()+1}</small></span><div class="mini"><i style="width:${p}%"></i></div><b>${done}/6</b></div>`)}$('week').innerHTML=out.join('')}
-function status(msg,type=''){const el=$('status');el.textContent=msg;el.className='status '+type}
-function normalize(raw){if(!raw||typeof raw!=='object')return {days:{}};return {days:raw.days&&typeof raw.days==='object'?raw.days:{}}}
-async function gh(path,opts={}){const r=await fetch(`https://api.github.com/repos/${REPO}/contents/${path}`,{...opts,headers:{Accept:'application/vnd.github+json',Authorization:`Bearer ${token}`,'X-GitHub-Api-Version':'2022-11-28',...(opts.headers||{})}});if(!r.ok){let msg='GitHub API error '+r.status;try{const j=await r.json();msg=j.message||msg}catch{}throw new Error(msg)}return r.json()}
-function b64utf8(s){const bytes=new TextEncoder().encode(s);let bin='';for(const b of bytes)bin+=String.fromCharCode(b);return btoa(bin)}
-function utf8b64(s){const bin=atob(s.replace(/\n/g,''));const bytes=Uint8Array.from(bin,c=>c.charCodeAt(0));return new TextDecoder().decode(bytes)}
-async function loadFromGitHub(){token=document.getElementById('token').value.trim();if(!token){status('لازم تحط GitHub token أولًا.','err');return}try{status('جاري تحميل التقدم من GitHub…');const f=await gh(FILE);data=normalize(JSON.parse(utf8b64(f.content)));render();status('تم تحميل التقدم من GitHub بنجاح.','ok')}catch(e){if(String(e.message).includes('404')){data={days:{}};render();status('ما لقيتش progress.json. هذا طبيعي إذا أول استعمال؛ اضغط حفظ التقدم لإنشائه.','ok')}else status('فشل التحميل: '+e.message,'err')}}
-async function saveToGitHub(){token=document.getElementById('token').value.trim();if(!token){status('لازم تحط GitHub token أولًا.','err');return}try{status('جاري الحفظ في GitHub…');let sha=null;try{const f=await gh(FILE);sha=f.sha}catch(e){if(!String(e.message).includes('404'))throw e}const body=JSON.stringify({version:1,updatedAt:new Date().toISOString(),days:data.days},null,2),payload={message:`Update learning progress ${dateKey()}`,content:b64utf8(body),branch:BRANCH};if(sha)payload.sha=sha;await gh(FILE,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});status('تم حفظ التقدم في GitHub. ✅','ok')}catch(e){status('فشل الحفظ: '+e.message+' — تأكد أن التوكن عنده Contents: Read and write على الريبو.','err')}}
-$('saveBtn').onclick=saveToGitHub;$('loadBtn').onclick=loadFromGitHub;$('clearBtn').onclick=()=>{if(confirm('تمسح التقدم من ذاكرة الصفحة؟ لن يتم حذف progress.json من GitHub.')){data={days:{}};render();status('تم مسح بيانات الذاكرة فقط.')}}
+function toast(s){let t=$('toast');t.textContent=s;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1300)}
+document.querySelectorAll('.nav').forEach(b=>b.onclick=()=>{document.querySelectorAll('.nav').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));$(b.dataset.page).classList.add('active');render()});
+$('reset').onclick=()=>{if(confirm('تمسح كامل التقدم؟')){data={days:{}};save();toast('تم المسح')}}
+let deferredPrompt;window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;$('install').hidden=false});$('install').onclick=async()=>{if(!deferredPrompt)return;deferredPrompt.prompt();await deferredPrompt.userChoice;deferredPrompt=null;$('install').hidden=true};
+if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});
 render();
 </script>
 </body></html>
